@@ -16,8 +16,8 @@ export default function App() {
   return (
     <div className="App">
       <h1>ReactDiffViewer</h1>
-      <input type="text" onBlur={oldUrlHandler} value={oldUrl} />
-      <input type="text" onBlur={newUrlHandler} value={newUrl} />
+      <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
+      <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
       <ReactDiffViewer
         compareMethod={DiffMethod.WORDS_WITH_SPACE}
         oldValue={oldFileContent}
