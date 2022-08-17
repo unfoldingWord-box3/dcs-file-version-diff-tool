@@ -1,45 +1,46 @@
-import { useEffect, useState } from "react";
-import { useDeepCompareEffect } from "use-deep-compare";
+import { useState, useEffect, useCallback } from "react";
 
-export default function App() {
+export default function useDiffTool({
+  oldUrl="",
+  oldFileContent="",
+  newUrl="",
+  newFileContent="",
+}) {
   const defaultState = {
-    oldUrl: "",
-    oldFileContent: "",
-    newUrl: "",
-    newFileContent: ""
+    oldUrl,
+    oldFileContent,
+    newUrl,
+    newFileContent,
   };
   const [state, setState] = useState(defaultState);
 
-  useDeepCompareEffect(() => {
+  useEffect(() => {
     fetch(state.oldUrl).then(async (data) => {
       const oldFileContent = await data.text();
       setState((prev) => ({ ...prev, oldFileContent }));
     });
   }, [state.oldUrl]);
 
-  useDeepCompareEffect(() => {
+  useEffect(() => {
     fetch(state.newUrl).then(async (data) => {
       const newFileContent = await data.text();
       setState((prev) => ({ ...prev, newFileContent }));
     });
   }, [state.newUrl]);
 
-  const oldUrlHandler = (event) => {
-    const oldUrl = event.target.value;
-    setState({ ...state, oldUrl });
-  };
+  const setOldUrl = useCallback((oldUrl) => {
+    setState((prev) => ({ ...prev, oldUrl }));
+  }, []);
 
-  const newUrlHandler = (event) => {
-    const newUrl = event.target.value;
-    setState({ ...state, newUrl });
-  };
+  const setNewUrl = useCallback((newUrl) => {
+    setState((prev) => ({ ...prev, newUrl }));
+  }, []);
 
   return {
-    oldUrlHandler,
-    newUrlHandler,
-    oldUrl: state.oldUrl,
-    newUrl: state.newUrl,
-    oldFileContent: state.oldFileContent,
-    newFileContent: state.newFileContent
+    state,
+    actions: {
+      setOldUrl,
+      setNewUrl,
+    }
   };
-}
+};
