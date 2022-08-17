@@ -1,11 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 
-export default function App() {
+export default function useDiffTool({
+  oldUrl="",
+  oldFileContent="",
+  newUrl="",
+  newFileContent="",
+}) {
   const defaultState = {
-    oldUrl: "",
-    oldFileContent: "",
-    newUrl: "",
-    newFileContent: ""
+    oldUrl,
+    oldFileContent,
+    newUrl,
+    newFileContent,
   };
   const [state, setState] = useState(defaultState);
 
@@ -38,4 +43,4 @@ export default function App() {
       setNewUrl,
     }
   };
-}
+};
