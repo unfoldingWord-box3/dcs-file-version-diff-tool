@@ -3,3 +3,19 @@
   padding: 20px;
   text-align: center;
 }
+label {
+  display: block;
+  font: 1rem "Fira Sans", sans-serif;
+}
+input,
+label {
+  margin: 0.4rem 0;
+}
+div.url {
+  display: inline-block;
+  width: calc(50% - 2em);
+  padding: 1em;
+}
+div.url input {
+  width: 100%;
+}

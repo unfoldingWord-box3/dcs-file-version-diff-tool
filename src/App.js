@@ -10,14 +10,21 @@ export default function App() {
     oldUrl,
     newUrl,
     oldFileContent,
-    newFileContent
+    newFileContent,
   } = useDiffTool();
 
   return (
     <div className="App">
       <h1>ReactDiffViewer</h1>
-      <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
-      <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
+      <div className="url">
+        <label for="url">Enter oldUrl:</label>
+        <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
+      </div>
+
+      <div className="url">
+        <label for="url">Enter newUrl:</label>
+        <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
+      </div>
       <ReactDiffViewer
         compareMethod={DiffMethod.WORDS_WITH_SPACE}
         oldValue={oldFileContent}
