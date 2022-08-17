@@ -31,7 +31,6 @@ export default function App() {
         <label for="url">Enter oldUrl:</label>
         <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
       </div>
-
       <div className="url">
         <label for="url">Enter newUrl:</label>
         <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
