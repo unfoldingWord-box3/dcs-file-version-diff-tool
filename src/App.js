@@ -5,13 +5,27 @@ import "./styles.css";
 
 export default function App() {
   const {
-    oldUrlHandler,
-    newUrlHandler,
-    oldUrl,
-    newUrl,
-    oldFileContent,
-    newFileContent
+    actions: {
+      setOldUrl,
+      setNewUrl,
+    },
+    state: {
+      oldUrl,
+      newUrl,
+      oldFileContent,
+      newFileContent
+    }
   } = useDiffTool();
+
+  const oldUrlHandler = (event) => {
+    const oldUrl = event.target.value;
+    setOldUrl(oldUrl);
+  };
+
+  const newUrlHandler = (event) => {
+    const newUrl = event.target.value;
+    setNewUrl(newUrl);
+  };
 
   return (
     <div className="App">
