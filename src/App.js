@@ -5,17 +5,34 @@ import "./styles.css";
 
 export default function App() {
   const {
-    oldUrlHandler,
-    newUrlHandler,
-    oldUrl,
-    newUrl,
-    oldFileContent,
-    newFileContent
-  } = useDiffTool();
+    actions: {
+      setOldUrl,
+      setNewUrl,
+    },
+    state: {
+      oldUrl,
+      newUrl,
+      oldFileContent,
+      newFileContent
+    }
+  } = useDiffTool({
+    oldUrl: "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
+    newUrl: "https://git.door43.org/klappy/en_ult/raw/branch/57-TIT.usfm/57-TIT.usfm",
+  });
+
+  const oldUrlHandler = (event) => {
+    const oldUrl = event.target.value;
+    setOldUrl(oldUrl);
+  };
+
+  const newUrlHandler = (event) => {
+    const newUrl = event.target.value;
+    setNewUrl(newUrl);
+  };
 
   return (
     <div className="App">
-      <h1>ReactDiffViewer</h1>
+      <h1>Text File Diff Viewer</h1>
       <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
       <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
       <ReactDiffViewer
