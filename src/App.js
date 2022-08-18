@@ -1,38 +1,50 @@
 import ReactDiffViewer, { DiffMethod } from "react-diff-viewer";
-import useDiffTool from "./hooks/useDiffTool";
+import InputForm from "./components/InputForm";
+import useDiffTool from "./hooks/useAppState";
 
 import "./styles.css";
 
 export default function App() {
   const {
-    actions: { setOldUrl, setNewUrl },
+    state,
+    actions,
     state: { oldUrl, newUrl, oldFileContent, newFileContent },
+    actions: { onOldUrl, onNewUrl },
   } = useDiffTool({
-    oldUrl:
-      "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
-    newUrl:
-      "https://git.door43.org/klappy/en_ult/raw/branch/57-TIT.usfm/57-TIT.usfm",
+    server: "https://git.door43.org",
+    organization: "unfoldingword",
+    repository: "en_ust",
+    oldBranch: "master",
+    newBranch: "master",
+    filepath: "README.md",
+    oldUrl: "",
+    oldFileContent: "",
+    newUrl: "",
+    newFileContent: "",
   });
 
   const oldUrlHandler = (event) => {
     const oldUrl = event.target.value;
-    setOldUrl(oldUrl);
+    onOldUrl(oldUrl);
   };
 
   const newUrlHandler = (event) => {
     const newUrl = event.target.value;
-    setNewUrl(newUrl);
+    onNewUrl(newUrl);
   };
 
   return (
     <div className="App">
       <h1>Text File Diff Viewer</h1>
+      <div>
+        <InputForm state={state} actions={actions} />
+      </div>
       <div className="url">
-        <label for="url">Enter oldUrl:</label>
+        <label for="url">oldUrl:</label>
         <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
       </div>
       <div className="url">
-        <label for="url">Enter newUrl:</label>
+        <label for="url">newUrl:</label>
         <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
       </div>
       <ReactDiffViewer

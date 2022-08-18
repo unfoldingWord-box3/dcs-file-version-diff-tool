@@ -10,7 +10,9 @@ export default function InputTextbox({
   };
 
   return (
-    <label
-    <input type="text" name={name} onBlur={handler} defaultValue={value} />
+    <div key={name} className="input-textbox">
+      <label for={name}>{name}:</label>
+      <input type="text" name={name} onBlur={handler} defaultValue={value} />
+    </div>
   );
 };
