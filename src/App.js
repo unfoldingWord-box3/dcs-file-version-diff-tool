@@ -5,19 +5,13 @@ import "./styles.css";
 
 export default function App() {
   const {
-    actions: {
-      setOldUrl,
-      setNewUrl,
-    },
-    state: {
-      oldUrl,
-      newUrl,
-      oldFileContent,
-      newFileContent
-    }
+    actions: { setOldUrl, setNewUrl },
+    state: { oldUrl, newUrl, oldFileContent, newFileContent },
   } = useDiffTool({
-    oldUrl: "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
-    newUrl: "https://git.door43.org/klappy/en_ult/raw/branch/57-TIT.usfm/57-TIT.usfm",
+    oldUrl:
+      "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
+    newUrl:
+      "https://git.door43.org/klappy/en_ult/raw/branch/57-TIT.usfm/57-TIT.usfm",
   });
 
   const oldUrlHandler = (event) => {
@@ -33,8 +27,14 @@ export default function App() {
   return (
     <div className="App">
       <h1>Text File Diff Viewer</h1>
-      <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
-      <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
+      <div className="url">
+        <label for="url">Enter oldUrl:</label>
+        <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
+      </div>
+      <div className="url">
+        <label for="url">Enter newUrl:</label>
+        <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
+      </div>
       <ReactDiffViewer
         compareMethod={DiffMethod.WORDS_WITH_SPACE}
         oldValue={oldFileContent}
