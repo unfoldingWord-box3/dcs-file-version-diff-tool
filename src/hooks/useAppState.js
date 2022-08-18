@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 export default function useAppState({
   server: _server,
@@ -42,14 +42,18 @@ export default function useAppState({
   // reconstruct oldUrl from input form
   useEffect(() => {
     // "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
-    const _oldUrl = `${server}/${organization}/${repository}/raw/branch/${oldBranch}/${filepath}`;
-    setState(prev => ({ ...prev, oldUrl: _oldUrl }));
+    if (server && organization && repository && oldBranch && filepath) {
+      const _oldUrl = `${server}/${organization}/${repository}/raw/branch/${oldBranch}/${filepath}`;
+      setState(prev => ({ ...prev, oldUrl: _oldUrl }));
+    };
   }, [server, organization, repository, oldBranch, filepath]);
   // reconstruct newUrl from input form
   useEffect(() => {
     // "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
-    const _newUrl = `${server}/${organization}/${repository}/raw/branch/${newBranch}/${filepath}`;
-    setState(prev => ({ ...prev, newUrl: _newUrl }));
+    if (server && organization && repository && newBranch && filepath) {
+      const _newUrl = `${server}/${organization}/${repository}/raw/branch/${newBranch}/${filepath}`;
+      setState(prev => ({ ...prev, newUrl: _newUrl }));
+    };
   }, [server, organization, repository, newBranch, filepath]);
 
   // fetch oldFileContent
