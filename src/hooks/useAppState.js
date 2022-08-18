@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function useAppState({
   server: _server,
@@ -12,47 +12,31 @@ export default function useAppState({
   newUrl: _newUrl,
   newFileContent: _newFileContent,
 }) {
-  const defaultState = {
-    server: _server,
-    organization: _organization,
-    repository: _repository,
-    oldBranch: _oldBranch,
-    newBranch: _newBranch,
-    filepath: _filepath,
-    oldUrl: _oldUrl,
-    oldFileContent: _oldFileContent,
-    newUrl: _newUrl,
-    newFileContent: _newFileContent,
-  };
-  const [state, setState] = useState(defaultState);
-
-  const {
-    server,
-    organization,
-    repository,
-    oldBranch,
-    newBranch,
-    filepath,
-    oldUrl,
-    // oldFileContent,
-    newUrl,
-    // newFileContent,
-  } = state;
+  const [server, setServer] = useState(_server);
+  const [organization, setOrganization] = useState(_organization);
+  const [repository, setRepository] = useState(_repository);
+  const [oldBranch, setOldBranch] = useState(_oldBranch);
+  const [newBranch, setNewBranch] = useState(_newBranch);
+  const [filepath, setFilepath] = useState(_filepath);
+  const [oldUrl, setOldUrl] = useState(_oldUrl);
+  const [oldFileContent, setOldFileContent] = useState(_oldFileContent);
+  const [newUrl, setNewUrl] = useState(_newUrl);
+  const [newFileContent, setNewFileContent] = useState(_newFileContent);
 
   // reconstruct oldUrl from input form
   useEffect(() => {
     // "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
     if (server && organization && repository && oldBranch && filepath) {
-      const _oldUrl = `${server}/${organization}/${repository}/raw/branch/${oldBranch}/${filepath}`;
-      setState(prev => ({ ...prev, oldUrl: _oldUrl }));
+      const __oldUrl = `${server}/${organization}/${repository}/raw/branch/${oldBranch}/${filepath}`;
+      setOldUrl(__oldUrl)
     };
   }, [server, organization, repository, oldBranch, filepath]);
   // reconstruct newUrl from input form
   useEffect(() => {
     // "https://git.door43.org/klappy/en_ult/raw/branch/master/57-TIT.usfm",
     if (server && organization && repository && newBranch && filepath) {
-      const _newUrl = `${server}/${organization}/${repository}/raw/branch/${newBranch}/${filepath}`;
-      setState(prev => ({ ...prev, newUrl: _newUrl }));
+      const __newUrl = `${server}/${organization}/${repository}/raw/branch/${newBranch}/${filepath}`;
+      setNewUrl(__newUrl)
     };
   }, [server, organization, repository, newBranch, filepath]);
 
@@ -61,8 +45,8 @@ export default function useAppState({
     if (oldUrl?.length > 10) {
       console.log({ oldUrl });
       fetch(oldUrl).then(async (data) => {
-        const oldFileContent = await data.text();
-        setState((prev) => ({ ...prev, oldFileContent }));
+        const __oldFileContent = await data.text();
+        setOldFileContent(__oldFileContent);
       });
     };
   }, [oldUrl]);
@@ -72,69 +56,36 @@ export default function useAppState({
     if (newUrl?.length > 10) {
       console.log({ newUrl });
       fetch(newUrl).then(async (data) => {
-        const newFileContent = await data.text();
-        setState((prev) => ({ ...prev, newFileContent }));
+        const __newFileContent = await data.text();
+        setNewFileContent(__newFileContent);
       });
     };
   }, [newUrl]);
 
-  // Actions:
-  const onServer = useCallback((server) => {
-    setState((prev) => ({ ...prev, server }));
-  }, []);
-
-  const onOrganization = useCallback((organization) => {
-    setState((prev) => ({ ...prev, organization }));
-  }, []);
-
-  const onRepository = useCallback((repository) => {
-    setState((prev) => ({ ...prev, repository }));
-  }, []);
-
-  const onOldBranch = useCallback((oldBranch) => {
-    setState((prev) => ({ ...prev, oldBranch }));
-  }, []);
-
-  const onNewBranch = useCallback((newBranch) => {
-    setState((prev) => ({ ...prev, newBranch }));
-  }, []);
-
-  const onFilepath = useCallback((filepath) => {
-    setState((prev) => ({ ...prev, filepath }));
-  }, []);
-
-  const onOldUrl = useCallback((oldUrl) => {
-    setState((prev) => ({ ...prev, oldUrl }));
-  }, []);
-
-  const onNewUrl = useCallback((newUrl) => {
-    setState((prev) => ({ ...prev, newUrl }));
-  }, []);
-
   return {
-    state,
+    state: {
+      server,
+      organization,
+      repository,
+      oldBranch,
+      newBranch,
+      filepath,
+      oldUrl,
+      oldFileContent,
+      newUrl,
+      newFileContent,
+    },
     actions: {
-      onServer,
-      onOrganization,
-      onRepository,
-      onOldBranch,
-      onNewBranch,
-      onFilepath,
-      onOldUrl,
-      onNewUrl,
+      onServer: setServer,
+      onOrganization: setOrganization,
+      onRepository: setRepository,
+      onOldBranch: setOldBranch,
+      onNewBranch: setNewBranch,
+      onFilepath: setFilepath,
+      onOldUrl: setOldUrl,
+      onOldFileContent: setOldFileContent,
+      onNewUrl: setNewUrl,
+      onNewFileContent: setNewFileContent,
     },
   };
-};
-
-useAppState.defaultProps = {
-  server: "https://git.door43.org",
-  organization: "unfoldingword",
-  repository: "en_ult",
-  oldBranch: "master",
-  newBranch: "master",
-  filepath: "README.md",
-  oldUrl: "",
-  oldFileContent: "",
-  newUrl: "",
-  newFileContent: "",
 };
