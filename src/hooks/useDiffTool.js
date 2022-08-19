@@ -7,33 +7,45 @@ export default function useDiffTool({
   newFileContent = "",
 }) {
   const defaultState = {
+    oldPending: false,
     oldUrl,
     oldFileContent,
+    newPending: false,
     newUrl,
     newFileContent,
   };
   const [state, setState] = useState(defaultState);
 
   useEffect(() => {
+    let oldFileContent;
     fetch(state.oldUrl).then(async (data) => {
-      const oldFileContent = await data.text();
-      setState((prev) => ({ ...prev, oldFileContent }));
+      if (data?.status === 200) oldFileContent = await data?.text();
+      oldFileContent ||= 'failed to download old file.';
+      setState((prev) => ({ ...prev, oldPending: false, oldFileContent }));
+    }).catch(error => {
+      oldFileContent ||= 'failed to connect to server for old file.';
+      setState((prev) => ({ ...prev, oldPending: false, oldFileContent }));
     });
   }, [state.oldUrl]);
 
   useEffect(() => {
     fetch(state.newUrl).then(async (data) => {
-      const newFileContent = await data.text();
-      setState((prev) => ({ ...prev, newFileContent }));
+      let newFileContent;
+      if (data?.status === 200) newFileContent = await data?.text();
+      newFileContent ||= 'failed to download new file.';
+      setState((prev) => ({ ...prev, newPending: false, newFileContent }));
+    }).catch(error => {
+      newFileContent ||= 'failed to connect to server for new file.';
+      setState((prev) => ({ ...prev, newPending: false, newFileContent }));
     });
   }, [state.newUrl]);
 
   const setOldUrl = useCallback((oldUrl) => {
-    setState((prev) => ({ ...prev, oldUrl }));
+    setState((prev) => ({ ...prev, oldPending: true, oldUrl, oldFileContent: 'attempting to fetch old file...' }));
   }, []);
 
   const setNewUrl = useCallback((newUrl) => {
-    setState((prev) => ({ ...prev, newUrl }));
+    setState((prev) => ({ ...prev, newPending: true, newUrl, newFileContent: 'attempting to fetch new file...' }));
   }, []);
 
   return {
