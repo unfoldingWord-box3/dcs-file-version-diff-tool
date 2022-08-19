@@ -7,8 +7,10 @@ export default function useDiffTool({
   newFileContent = "",
 }) {
   const defaultState = {
+    oldPending: false,
     oldUrl,
     oldFileContent,
+    newPending: false,
     newUrl,
     newFileContent,
   };
@@ -17,23 +19,23 @@ export default function useDiffTool({
   useEffect(() => {
     fetch(state.oldUrl).then(async (data) => {
       const oldFileContent = await data.text();
-      setState((prev) => ({ ...prev, oldFileContent }));
+      setState((prev) => ({ ...prev, oldPending: false, oldFileContent }));
     });
   }, [state.oldUrl]);
 
   useEffect(() => {
     fetch(state.newUrl).then(async (data) => {
       const newFileContent = await data.text();
-      setState((prev) => ({ ...prev, newFileContent }));
+      setState((prev) => ({ ...prev, newPending: false, newFileContent }));
     });
   }, [state.newUrl]);
 
   const setOldUrl = useCallback((oldUrl) => {
-    setState((prev) => ({ ...prev, oldUrl }));
+    setState((prev) => ({ ...prev, oldPending: true, oldUrl, oldFileContent: 'attempting to fetch old file...' }));
   }, []);
 
   const setNewUrl = useCallback((newUrl) => {
-    setState((prev) => ({ ...prev, newUrl }));
+    setState((prev) => ({ ...prev, newPending: true, newUrl, newFileContent: 'attempting to fetch new file...' }));
   }, []);
 
   return {
