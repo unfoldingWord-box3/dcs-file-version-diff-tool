@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 
 export default function useDiffTool({
-  oldUrl="",
-  oldFileContent="",
-  newUrl="",
-  newFileContent="",
+  oldUrl = "",
+  oldFileContent = "",
+  newUrl = "",
+  newFileContent = "",
 }) {
   const defaultState = {
     oldUrl,
@@ -39,8 +39,8 @@ export default function useDiffTool({
   return {
     state,
     actions: {
-      setOldUrl,
-      setNewUrl,
+      onOldUrl: setOldUrl,
+      onNewUrl: setNewUrl,
     }
   };
 };
