@@ -14,8 +14,8 @@ export default function InputForm({
       oldBranch,
       newBranch,
       filepath,
-      oldUrl,
-      newUrl
+      autoOldUrl,
+      autoNewUrl,
     },
     actions: {
       onServer,
@@ -35,42 +35,26 @@ export default function InputForm({
   });
 
   useEffect(() => {
-    onOldUrl(oldUrl);
-  }, [oldUrl]);
+    onOldUrl(autoOldUrl);
+  }, [autoOldUrl]);
 
   useEffect(() => {
-    onNewUrl(newUrl);
-  }, [newUrl]);
-
-  const oldUrlHandler = (event) => {
-    const _oldUrl = event.target.value;
-    onOldUrl(_oldUrl);
-  };
-
-  const newUrlHandler = (event) => {
-    const _newUrl = event.target.value;
-    onNewUrl(_newUrl);
-  };
+    onNewUrl(autoNewUrl);
+  }, [autoNewUrl]);
 
   return (
-    <div>
-      <div>
-        <div className="input-form">
-          <InputTextbox name="server" value={server} callback={onServer} />
-          <InputTextbox name="organization" value={organization} callback={onOrganization} />
-          <InputTextbox name="repository" value={repository} callback={onRepository} />
-          <InputTextbox name="oldBranch" value={oldBranch} callback={onOldBranch} />
-          <InputTextbox name="newBranch" value={newBranch} callback={onNewBranch} />
-          <InputTextbox name="filepath" value={filepath} callback={onFilepath} />
-        </div>
+    <div className="input-form">
+      <div className="url-parts">
+        <InputTextbox name="server" value={server} callback={onServer} />
+        <InputTextbox name="organization" value={organization} callback={onOrganization} />
+        <InputTextbox name="repository" value={repository} callback={onRepository} />
+        <InputTextbox name="oldBranch" value={oldBranch} callback={onOldBranch} />
+        <InputTextbox name="newBranch" value={newBranch} callback={onNewBranch} />
+        <InputTextbox name="filepath" value={filepath} callback={onFilepath} />
       </div>
-      <div className="url">
-        <label for="url">oldUrl:</label>
-        <input type="text" onBlur={oldUrlHandler} defaultValue={state.oldUrl} />
-      </div>
-      <div className="url">
-        <label for="url">newUrl:</label>
-        <input type="text" onBlur={newUrlHandler} defaultValue={state.newUrl} />
+      <div className="urls">
+        <InputTextbox name="oldUrl" value={state.oldUrl} callback={onOldUrl} />
+        <InputTextbox name="newUrl" value={state.newUrl} callback={onNewUrl} />
       </div>
     </div>
   )

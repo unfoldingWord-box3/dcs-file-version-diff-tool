@@ -26,11 +26,11 @@ export default function useInputFields({
   };
 
   // reconstruct url from input form
-  const oldUrl = useMemo(() => {
+  const autoOldUrl = useMemo(() => {
     return createUrl({ server, organization, repository, branch: oldBranch, filepath });
   }, [server, organization, repository, oldBranch, filepath]);
 
-  const newUrl = useMemo(() => {
+  const autoNewUrl = useMemo(() => {
     return createUrl({ server, organization, repository, branch: newBranch, filepath });
   }, [server, organization, repository, newBranch, filepath]);
 
@@ -42,8 +42,8 @@ export default function useInputFields({
       oldBranch,
       newBranch,
       filepath,
-      oldUrl,
-      newUrl,
+      autoOldUrl,
+      autoNewUrl,
     },
     actions: {
       onServer: setServer,
