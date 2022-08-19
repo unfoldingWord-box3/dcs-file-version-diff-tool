@@ -17,15 +17,25 @@ export default function useDiffTool({
   const [state, setState] = useState(defaultState);
 
   useEffect(() => {
+    let oldFileContent;
     fetch(state.oldUrl).then(async (data) => {
-      const oldFileContent = await data.text();
+      if (data?.status === 200) oldFileContent = await data?.text();
+      oldFileContent ||= 'failed to download old file.';
+      setState((prev) => ({ ...prev, oldPending: false, oldFileContent }));
+    }).catch(error => {
+      oldFileContent ||= 'failed to connect to server for old file.';
       setState((prev) => ({ ...prev, oldPending: false, oldFileContent }));
     });
   }, [state.oldUrl]);
 
   useEffect(() => {
     fetch(state.newUrl).then(async (data) => {
-      const newFileContent = await data.text();
+      let newFileContent;
+      if (data?.status === 200) newFileContent = await data?.text();
+      newFileContent ||= 'failed to download new file.';
+      setState((prev) => ({ ...prev, newPending: false, newFileContent }));
+    }).catch(error => {
+      newFileContent ||= 'failed to connect to server for new file.';
       setState((prev) => ({ ...prev, newPending: false, newFileContent }));
     });
   }, [state.newUrl]);
