@@ -81,21 +81,21 @@
 
 **Purpose**
 
-- The purpose of this project
+- To create a simple to use tool for reviewing changes of a text file across branches and/or tags in a repository.
 
 **Problem**
 
-- The problem statement
+- It is currently difficult to compare changes across branches/tags of a single text file.
 
 **Scope**
 
-- What's in scope and out of scope for this project?
+- Show diff view of two versions of one text file at a time.
+- Easy to select org/repo/branch/tag/file from DCS to generate urls.
+- Easy to edit generated urls for edge cases.
 
 **Background**
 
-- What led us to this point? How did we get here?
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `unfoldingword-box3`, `dcs-file-version-diff-tool`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `dcs-file-version-diff-tool`, `A diff tool to compare two versions of a file between branches and/or repositories.`
+- Currently without starting a PR on DCS there isn't an easy way to compare changes of a text file. Even then, the UI shows many file's changes and can be too slow to render.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
