@@ -1,5 +1,8 @@
 import ReactDiffViewer, { DiffMethod } from "react-diff-viewer";
+import React from "react";
 import useDiffTool from "./hooks/useDiffTool";
+import Repository from "./components/repoSelector";
+import Organization from "./components/orgSelector";
 
 import "./styles.css";
 
@@ -32,6 +35,8 @@ export default function App() {
 
   return (
     <div className="App">
+      <Organization />
+      <Repository />
       <h1>Text File Diff Viewer</h1>
       <input type="text" onBlur={oldUrlHandler} defaultValue={oldUrl} />
       <input type="text" onBlur={newUrlHandler} defaultValue={newUrl} />
